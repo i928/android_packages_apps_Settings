@@ -24,8 +24,6 @@ import com.android.settingslib.datastore.KeyValueStore
 import com.android.settingslib.datastore.NoOpKeyedObservable
 import com.android.settingslib.fuelgauge.BatterySaverLogging.SAVER_ENABLED_SETTINGS
 import com.android.settingslib.fuelgauge.BatterySaverUtils
-import com.android.settingslib.fuelgauge.BatteryStatus
-import com.android.settingslib.fuelgauge.BatteryUtils
 import com.android.settingslib.metadata.MainSwitchPreference
 import com.android.settingslib.metadata.PreferenceLifecycleContext
 import com.android.settingslib.metadata.PreferenceLifecycleProvider
@@ -52,8 +50,8 @@ class BatterySaverPreference :
     override val sensitivityLevel
         get() = SensitivityLevel.NO_SENSITIVITY
 
-    override fun isEnabled(context: Context) =
-        !BatteryStatus(BatteryUtils.getBatteryIntent(context)).isPluggedIn
+    // Battery saver can be toggled while plugged in.
+    override fun isEnabled(context: Context) = true
 
     override fun onStart(context: PreferenceLifecycleContext) {
         BatterySaverReceiver(context).apply {
